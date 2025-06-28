@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
+import axios from 'axios';
 
 function OrderForm() {
   const [formData, setFormData] = useState({
@@ -16,11 +17,17 @@ function OrderForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const message = `Hello ${formData.customerName}, your order ${formData.orderId} is ready! 📦`;
-    const link = `https://api.whatsapp.com/send?phone=${formData.phoneNumber}&text=${encodeURIComponent(message)}`;
-    window.open(link, '_blank');
+    try {
+      const res = await axios.post('http://localhost:3000/send', formData);
+      if (res.data && res.data.link) {
+        window.open(res.data.link, '_blank');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error.message);
+      alert('Something went wrong');
+    }
   };
 
   return (
