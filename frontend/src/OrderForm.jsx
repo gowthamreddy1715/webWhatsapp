@@ -63,7 +63,7 @@ function OrderForm() {
             <input
               type="tel"
               name="phoneNumber"
-              placeholder="With country code (e.g. 919390122293)"
+              placeholder="With country code"
               value={formData.phoneNumber}
               onChange={handleChange}
               required
